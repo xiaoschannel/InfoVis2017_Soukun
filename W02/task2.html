@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <title>Hello Kitty</title>
+  </head>
+  <body>
+    <input type="text"
+	   value=""
+	   id="x0">
+    <input type="text"
+	   value=""
+	   id="y0">
+    <input type="text"
+	   value=""
+	   id="z0">
+    <input type="text"
+	   value=""
+	   id="x1">
+    <input type="text"
+	   value=""
+	   id="y1">
+    <input type="text"
+	   value=""
+	   id="z1">
+    <input type="text"
+	   value=""
+	   id="x2">
+    <input type="text"
+	   value=""
+	   id="y2">
+    <input type="text"
+	   value=""
+	   id="z2">
+    <input type="button"
+	   value="Click MEEEEEEEE"
+	   onclick="Event()">
+    
+    <script src="vec3.js"></script>
+    <script>
+      function Event()
+      {
+        var v1 = new Vec3(document.getElementById("x0").value, document.getElementById("y0").value, document.getElementById("z0").value);
+        var v2 = new Vec3(document.getElementById("x1").value, document.getElementById("y1").value, document.getElementById("z1").value);
+        var v3 = new Vec3(document.getElementById("x2").value, document.getElementById("y2").value, document.getElementById("z2").value);
+        document.write(AreaOfTriangle(v1,v2,v3));
+      }
+    </script>
+  </body>
+</html>
