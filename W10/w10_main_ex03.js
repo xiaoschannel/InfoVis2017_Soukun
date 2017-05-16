@@ -24,17 +24,20 @@ function main()
     var vertices = [
         [ -1,  1, 0 ], // 0
         [ -1, -1, 0 ], // 1
-        [  1, -1, 0 ]  // 2
+        [  1, -1, 0 ], // 2
+		[  1,  1, 0 ]  // 3
     ];
 
     var faces = [
         [ 0, 1, 2 ], // f0
+		[ 0, 2, 3 ], // f0
     ];
 	
 	var scalars = [
         0,   // S0
         0.2, // S1
-        0.8  // S2
+        0.8, // S2
+		0.5
     ];
 	
 
@@ -43,9 +46,9 @@ function main()
     for ( var i = 0; i < 256; i++ )
     {
         var S = i / 255.0; // [0,1]
-        var R = 1;
-        var G = 1-S;
-        var B = 1-S;
+        var R = Math.max( Math.cos( ( S - 1.0 ) * Math.PI ), 0.0 );
+        var G = Math.max( Math.cos( ( S - 0.5 ) * Math.PI ), 0.0 );
+        var B = Math.max( Math.cos( S * Math.PI ), 0.0 );
         var color = new THREE.Color( R, G, B );
         cmap.push( [ S, '0x' + color.getHexString() ] );
     }
