@@ -1,6 +1,7 @@
 var surfaces;
 var volume;
 var screen;
+var cmap = [];
 function main()
 {
     volume = new KVS.LobsterData();
@@ -13,7 +14,19 @@ function main()
     screen.scene.add( bounds );
 
     var isovalue = 64;
-    surfaces = Isosurfaces( volume, isovalue );
+	
+	// Create a color map
+    for ( var i = 0; i < 256; i++ )
+    {
+        var S = i / 255.0; // [0,1]
+        var R = Math.max( Math.cos( ( S - 1.0 ) * Math.PI ), 0.0 );
+        var G = Math.max( Math.cos( ( S - 0.5 ) * Math.PI ), 0.0 );
+        var B = Math.max( Math.cos( S * Math.PI ), 0.0 );
+        var color = new THREE.Color( R, G, B );
+        cmap.push( [ S, '0x' + color.getHexString() ] );
+    }
+	
+    surfaces = Isosurfaces( volume, isovalue, cmap );
 	surfaces.name = "surfaces";
     screen.scene.add( surfaces );
 
@@ -27,11 +40,57 @@ function main()
 
     screen.loop();
 }
+
 function btnISO_Click()
 {
 	var obj = screen.scene.getObjectByName("surfaces");
 	screen.scene.remove(obj);
-	surfaces =  Isosurfaces( volume,Math.round( document.getElementById("isovalue").value*255 ));
+	surfaces = Isosurfaces( volume,Math.round( document.getElementById("isovalue").value*255 ),cmap);
+	surfaces.name = "surfaces";
 	screen.scene.add(surfaces);
 	animate();
+}
+
+function btnBW_Click()
+{
+	var obj = screen.scene.getObjectByName("surfaces");
+	screen.scene.remove(obj);
+	
+	cmap=[];
+	// Create a color map
+    for ( var i = 0; i < 256; i++ )
+    {
+        var S = i / 255.0; // [0,1]
+        var color = new THREE.Color( S, S, S );
+        cmap.push( [ S, '0x' + color.getHexString() ] );
+    }
+	
+	surfaces = Isosurfaces( volume,Math.round( document.getElementById("isovalue").value*255) ,cmap);
+	surfaces.name = "surfaces";
+	screen.scene.add(surfaces);
+	animate();
+}
+
+function btnCLR_Click()
+{
+	var obj = screen.scene.getObjectByName("surfaces");
+	screen.scene.remove(obj);
+	
+	cmap=[];
+	// Create a color map
+    for ( var i = 0; i < 256; i++ )
+    {
+        var S = i / 255.0; // [0,1]
+        var R = Math.max( Math.cos( ( S - 1.0 ) * Math.PI ), 0.0 );
+        var G = Math.max( Math.cos( ( S - 0.5 ) * Math.PI ), 0.0 );
+        var B = Math.max( Math.cos( S * Math.PI ), 0.0 );
+        var color = new THREE.Color( R, G, B );
+        cmap.push( [ S, '0x' + color.getHexString() ] );
+    }
+	
+	surfaces = Isosurfaces( volume,Math.round( document.getElementById("isovalue").value*255) ,cmap);
+	surfaces.name = "surfaces";
+	screen.scene.add(surfaces);
+	animate();
+	
 }
